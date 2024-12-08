@@ -3,20 +3,15 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import json
+import app_utils as utils
 
 # Configuration de la page
 st.set_page_config(
-    page_title="Comprehensive KPI Dashboard",
+    page_title="Performance Dashboard",
     page_icon="📊",
     layout="wide",
 )
 
-# Charger le thème depuis le fichier JSON
-def load_theme():
-    with open('assets/theme/theme.json') as f:
-        return json.load(f)
-
-theme = load_theme()
 
 # Charger les données depuis le fichier CSV
 @st.cache_data
@@ -31,60 +26,6 @@ data["Transactions"] = np.random.randint(50, 500, size=len(data))
 data["Customer Satisfaction"] = np.random.uniform(70, 100, size=len(data)).round(2)
 data["Cost per Acquisition"] = np.random.uniform(10, 50, size=len(data)).round(2)
 
-# Fonction pour créer un conteneur KPI avec valeur, étiquette et style CSS.
-def containerize_kpi(kpi_value, kpi_label, change=None):
-    """
-    Cette fonction crée un conteneur KPI avec une valeur et une étiquette.
-    Elle prend trois paramètres : kpi_value, kpi_label et change.
-    Elle retourne une chaîne contenant le code HTML pour le conteneur KPI.
-    """
-    arrow = ""
-    color = theme['foreground']  # Couleur par défaut
-
-    if change is not None:
-        if change > 0:
-            arrow = "▲"  # Flèche vers le haut
-            color = "green"
-        elif change < 0:
-            arrow = "▼"  # Flèche vers le bas
-            color = "red"
-
-    return f"""
-    <style>
-        .kpi-container {{
-            width: 250px;  /* Largeur augmentée */
-            height: 100px; /* Hauteur fixe */
-            border: 1px solid {theme['foregroundNeutralSecondary']};
-            border-radius: 8px;
-            padding: 16px;
-            text-align: center;
-            background-color: {theme['backgroundLight']};
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }}
-        .kpi-value {{
-            font-size: 24px;
-            font-weight: bold;
-            color: {color};
-        }}
-        .kpi-label {{
-            font-size: 14px;
-            color: {theme['foregroundNeutralTertiary']};
-        }}
-        .kpi-change {{
-            font-size: 14px;
-            color: {color};
-        }}
-    </style>
-    <div class="kpi-container">
-        <div class="kpi-value">{kpi_value} {arrow}</div>
-        <div class="kpi-label">{kpi_label}</div>
-        {f'<div class="kpi-change">{change:+.2f}</div>' if change is not None else ''}
-    </div>
-    """
 
 # Sidebar pour la navigation
 st.sidebar.title("Navigation")
@@ -118,19 +59,19 @@ with tab1:
     previous_total_transactions = total_transactions - np.random.randint(10, 50)
 
     with col1:
-        st.markdown(containerize_kpi(f"{total_visitors:,}", "Total Visitors", total_visitors - previous_total_visitors), unsafe_allow_html=True)
+        st.markdown(utils.containerize_kpi(f"{total_visitors:,}", "Total Visitors", total_visitors - previous_total_visitors), unsafe_allow_html=True)
 
     with col2:
-        st.markdown(containerize_kpi(f"${total_revenue:,.2f}", "Total Revenue", total_revenue - previous_total_revenue), unsafe_allow_html=True)
+        st.markdown(utils.containerize_kpi(f"${total_revenue:,.2f}", "Total Revenue", total_revenue - previous_total_revenue), unsafe_allow_html=True)
 
     with col3:
-        st.markdown(containerize_kpi(f"{global_conversion_rate:.2f}%", "Global Conversion Rate"), unsafe_allow_html=True)
+        st.markdown(utils.containerize_kpi(f"{global_conversion_rate:.2f}%", "Global Conversion Rate"), unsafe_allow_html=True)
 
     with col4:
-        st.markdown(containerize_kpi(f"{total_transactions:,}", "Total Transactions", total_transactions - previous_total_transactions), unsafe_allow_html=True)
+        st.markdown(utils.containerize_kpi(f"{total_transactions:,}", "Total Transactions", total_transactions - previous_total_transactions), unsafe_allow_html=True)
 
     with col5:
-        st.markdown(containerize_kpi(f"${average_revenue_per_transaction:,.2f}", "Revenue per Transaction"), unsafe_allow_html=True)
+        st.markdown(utils.containerize_kpi(f"${average_revenue_per_transaction:,.2f}", "Revenue per Transaction"), unsafe_allow_html=True)
 
     # Filtres sur la page
     st.write("### Filters")
