@@ -1,12 +1,35 @@
+# Streamlit Configuration File
+
+# Server settings
+[server]
+headless = true            # Permet d'exécuter Streamlit en mode headless (souvent utilisé pour les déploiements).
+port = 8501                # Définit le port sur lequel le serveur écoute.
+enableCORS = false         # Désactive CORS pour permettre des requêtes cross-origin (souvent utile lors de tests).
+enableWebsocketCompression = false  # Active ou désactive la compression WebSocket.
+baseUrlPath = ""           # Définit le chemin de base pour l'application (utile pour des déploiements spécifiques).
+fileWatcherType = "auto"   # Active le rechargement automatique du fichier (valeurs possibles : "auto", "watchdog", "none").
+
+# Logging settings
+[logger]
+level = "info"             # Niveau de log (valeurs possibles : "error", "warning", "info", "debug").
+format = "%(asctime)s - %(message)s"  # Format des logs.
+
+# Theme settings
 [theme]
-# Primary accent color for interactive elements.
-primaryColor = "#d33682"
+base = "light"             # Définit le thème de base (valeurs possibles : "light", "dark").
+primaryColor = "#FF4B4B"   # Couleur principale du thème.
+backgroundColor = "#FFFFFF" # Couleur de l'arrière-plan.
+secondaryBackgroundColor = "#F0F2F6" # Couleur de l'arrière-plan secondaire.
+textColor = "#000000"      # Couleur du texte.
+font = "sans serif"        # Police utilisée dans l'application.
 
-# Background color for the main content area.
-backgroundColor = "#002b36"
+# Custom configuration for client display
+[client]
+caching = "true"           # Active ou désactive le caching côté client.
+displayEnabled = true      # Permet d'afficher les mises à jour des widgets côté client.
 
-# Background color used for the sidebar and most interactive widgets.
-secondaryBackgroundColor = "#586e75"
+# Browser options
+[browser]
+serverAddress = "localhost" # Adresse sur laquelle le navigateur accède à Streamlit.
+gatherUsageStats = false   # Active ou désactive l'envoi de statistiques d'utilisation anonymisées.
 
-# Color used for almost all text.
-textColor = "#fff"
